@@ -189,7 +189,7 @@ public class DbConnection
         
         try
         {
-            PreparedStatement stmnt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmnt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmnt.setInt(1, contactId);
             stmnt.executeUpdate();
         }

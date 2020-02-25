@@ -4,6 +4,8 @@ import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -325,14 +327,37 @@ public class Edit extends javax.swing.JFrame
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Search Button
-        int i = businessContacts.length;
-        
-        for(int j = 0; j < i; j++) //Fill table filtering on user input
+        try
         {
-            //
+            DefaultTableModel mod = new DefaultTableModel();
+            
+            string userInput = jTextField11.getText();
+            string sql = "SELECT * from contact WHERE ContactFName LIKE ???;";
+            PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setString(1, "%");
+            pst.setString(2, userInput);
+            pst.setString(3, "%");
+            ResultSet rs = pst.executeQuery();
+            
+            java.sql.ResultSetMetaData rsmd = rs.getMetaData();
+            int colNo = rsmd.getColumnCount();
+            
+            while(rs.next())
+            {
+                Object[] objects = new Object[colNo];
+                
+                for(int i=0;i<colNo;i++)
+                {
+                    objects[i]=rs.getObject(i+1);
+                }
+                mod.addRow(objects);
+            }
+            jTable1.setModel(mod);            
         }
-        
-        jTable1 = new JTable();
+        catch (SQLException e)
+        {
+            System.out.println(e);
+        }  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -482,27 +507,7 @@ public class Edit extends javax.swing.JFrame
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
        
-        try{
-            int row = jTable1.getSelectedRow();
-            string tblclick = (jTable1.getModel().getValueAt(row, 0).toString());
-            string sql = "SELECT * from contact WHERE ContactFName="+tblclick+"";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-            
-            if(rs.next())
-            {
-                string fName = String.valueOf(rs.getInt("ContactFName"));
-                jTextField1.setText(ContactFName);
-                jTextField2.setText(ContactLName);
-                jTextField3.setText(ContactEmail);
-            }
-            
-        }
-       catch (SQLException e)
-        {
-            System.out.println(e);
-        }  
+        //cick table to populate fields
         
       
     }//GEN-LAST:event_jTable1MouseClicked
