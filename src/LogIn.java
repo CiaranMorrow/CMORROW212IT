@@ -142,10 +142,10 @@ public class LogIn extends javax.swing.JFrame {
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
         // WILL CHANGE AT END
-       /* Menu mn = new Menu();
+       Menu mn = new Menu();
         mn.setVisible(true);
-        this.dispose();*/
-        if (userNameText.getText().trim().isEmpty() && passwordText.getText().trim().isEmpty()){
+        this.dispose();
+        /* if (userNameText.getText().trim().isEmpty() && passwordText.getText().trim().isEmpty()){
             jLabel2.setText("Username Missing");
             jLabel3.setText("Password Missing");
         }
@@ -155,7 +155,7 @@ public class LogIn extends javax.swing.JFrame {
         else if(userNameText.getText().trim().isEmpty()){
            jLabel3.setText("Password Missing"); 
         }
-        
+        */
         
         
     }//GEN-LAST:event_logInActionPerformed

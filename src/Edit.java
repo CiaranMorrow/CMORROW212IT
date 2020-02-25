@@ -2,6 +2,8 @@
 import Services.DbConnection;
 import java.awt.List;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -388,35 +390,31 @@ public class Edit extends javax.swing.JFrame
             }
             if(!jTextField3.getText().isEmpty())
             {
-                bc.contactFName = jTextField3.getText();
+                bc.contactTel = jTextField3.getText();
             }
             if(!jTextField4.getText().isEmpty())
             {
-                bc.contactLName = jTextField4.getText();
+                bc.contactEmail = jTextField4.getText();
             }
             if(!jTextField5.getText().isEmpty())
             {
-                bc.contactFName = jTextField5.getText();
+                bc.contactAddr1 = jTextField5.getText();
             }
             if(!jTextField6.getText().isEmpty())
             {
-                bc.contactLName = jTextField6.getText();
+                bc.contactAddr2 = jTextField6.getText();
             }
             if(!jTextField7.getText().isEmpty())
             {
-                bc.contactFName = jTextField7.getText();
+                bc.contactCity = jTextField7.getText();
             }
             if(!jTextField8.getText().isEmpty())
             {
-                bc.contactLName = jTextField8.getText();
+                bc.contactPostcode = jTextField8.getText();
             }
             if(!jTextField9.getText().isEmpty())
             {
-                bc.contactFName = jTextField9.getText();
-            }
-            if(!jTextField10.getText().isEmpty())
-            {
-                bc.contactLName = jTextField10.getText();
+                bc.businessTel = jTextField9.getText();
             }
             
             connectionManagementService.UpdateBusinessContact(bc, conn);
@@ -445,35 +443,31 @@ public class Edit extends javax.swing.JFrame
             }
             if(!jTextField3.getText().isEmpty())
             {
-                pc.contactFName = jTextField3.getText();
+                pc.contactTel = jTextField3.getText();
             }
             if(!jTextField4.getText().isEmpty())
             {
-                pc.contactLName = jTextField4.getText();
+                pc.contactEmail = jTextField4.getText();
             }
             if(!jTextField5.getText().isEmpty())
             {
-                pc.contactFName = jTextField5.getText();
+                pc.contactAddr1 = jTextField5.getText();
             }
             if(!jTextField6.getText().isEmpty())
             {
-                pc.contactLName = jTextField6.getText();
+                pc.contactAddr2 = jTextField6.getText();
             }
             if(!jTextField7.getText().isEmpty())
             {
-                pc.contactFName = jTextField7.getText();
+                pc.contactCity = jTextField7.getText();
             }
             if(!jTextField8.getText().isEmpty())
             {
-                pc.contactLName = jTextField8.getText();
-            }
-            if(!jTextField9.getText().isEmpty())
-            {
-                pc.contactFName = jTextField9.getText();
+                pc.contactPostcode = jTextField8.getText();
             }
             if(!jTextField10.getText().isEmpty())
             {
-                pc.contactLName = jTextField10.getText();
+                pc.homeTel = jTextField10.getText();
             }
             
             connectionManagementService.UpdatePersonalContact(pc, conn);
@@ -487,19 +481,21 @@ public class Edit extends javax.swing.JFrame
     }//GEN-LAST:event_jTextField10ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       /*
+       
         try{
             int row = jTable1.getSelectedRow();
             string tblclick = (jTable1.getModel().getValueAt(row, 0).toString());
             string sql = "SELECT * from contact WHERE ContactFName="+tblclick+"";
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
             jTable1.setModel(DbUtils.resultSetToTableModel(rs));
             
             if(rs.next())
             {
                 string fName = String.valueOf(rs.getInt("ContactFName"));
                 jTextField1.setText(ContactFName);
+                jTextField2.setText(ContactLName);
+                jTextField3.setText(ContactEmail);
             }
             
         }
@@ -508,7 +504,7 @@ public class Edit extends javax.swing.JFrame
             System.out.println(e);
         }  
         
-      */
+      
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void UpdateTableModel() 
