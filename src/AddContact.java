@@ -305,15 +305,8 @@ public class AddContact extends javax.swing.JFrame {
     Addcity.setText("");
     Addpostcode.setText("");
     AddbusinessNumber.setText("");
-    AddpersonalNumber.setText("");
-
- 
-  
-        
-        
-        
+    AddpersonalNumber.setText("");      
     }//GEN-LAST:event_AddclearTextActionPerformed
-
     /**
      * @param args the command line arguments
      */

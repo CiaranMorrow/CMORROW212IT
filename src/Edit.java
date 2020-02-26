@@ -327,7 +327,7 @@ public class Edit extends javax.swing.JFrame
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Search Button
-        try
+        /*try
         {
             DefaultTableModel mod = new DefaultTableModel();
             
@@ -358,6 +358,8 @@ public class Edit extends javax.swing.JFrame
         {
             System.out.println(e);
         }  
+        */
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
