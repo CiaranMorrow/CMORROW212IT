@@ -1,5 +1,5 @@
 
-import Services.DbConnection;
+import services.DbConnection;
 import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -329,7 +329,7 @@ public class Edit extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void contactSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactSearchButtonActionPerformed
-       // Search Button
+       // Search Button -- doesnt work
         try
         { 
             DefaultTableModel mod = new DefaultTableModel();
@@ -340,6 +340,7 @@ public class Edit extends javax.swing.JFrame
             ting = ting.replace("%", "!%");
             String sql = "SELECT * FROM contact WHERE contactID LIKE ? ESCAPE '!';";
             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pst.setEscapeProcessing(true);
             pst.setString(1, ting);
             ResultSet rs = pst.executeQuery();
            
@@ -348,7 +349,6 @@ public class Edit extends javax.swing.JFrame
            
             while(rs.next())
             {
-                System.out.println(rs.getString("contactFName")); // never does this - F
                 Object[] objects = new Object[colNo];
                
                 for(int i=0;i<colNo;i++)
@@ -528,7 +528,7 @@ public class Edit extends javax.swing.JFrame
        jTextField7.setText(model2.getValueAt(selectedRowIndex, 7).toString());
        jTextField8.setText(model2.getValueAt(selectedRowIndex,8).toString());
        jTextField9.setText(model2.getValueAt(selectedRowIndex, 9).toString());
-       jTextField10.setText(model2.getValueAt(selectedRowIndex, 10).toString());                                    
+       jTextField10.setText(model2.getValueAt(selectedRowIndex, 10).toString());               
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void UpdateTableModel() 
