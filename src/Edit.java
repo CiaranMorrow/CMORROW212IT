@@ -531,9 +531,7 @@ public class Edit extends javax.swing.JFrame
        jTextField7.setText(model2.getValueAt(selectedRowIndex, 7).toString());
        jTextField8.setText(model2.getValueAt(selectedRowIndex,8).toString());
        jTextField9.setText(model2.getValueAt(selectedRowIndex, 9).toString());
-       jTextField10.setText(model2.getValueAt(selectedRowIndex, 10).toString());      
-
-                                      
+       jTextField10.setText(model2.getValueAt(selectedRowIndex, 10).toString());                                    
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void UpdateTableModel() 
