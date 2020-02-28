@@ -1,5 +1,5 @@
 
-import Services.DbConnection;
+import services.DbConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -305,15 +305,8 @@ public class AddContact extends javax.swing.JFrame {
     Addcity.setText("");
     Addpostcode.setText("");
     AddbusinessNumber.setText("");
-    AddpersonalNumber.setText("");
-
- 
-  
-        
-        
-        
+    AddpersonalNumber.setText("");      
     }//GEN-LAST:event_AddclearTextActionPerformed
-
     /**
      * @param args the command line arguments
      */

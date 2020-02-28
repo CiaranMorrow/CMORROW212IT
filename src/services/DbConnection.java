@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Services;
+package services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -189,7 +189,7 @@ public class DbConnection
         
         try
         {
-            PreparedStatement stmnt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmnt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmnt.setInt(1, contactId);
             stmnt.executeUpdate();
         }
