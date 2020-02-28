@@ -38,14 +38,9 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="signUp" min="-2" pref="82" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="logIn" min="-2" pref="81" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="checkbox1" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="signUp" min="-2" pref="82" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="logIn" min="-2" pref="81" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -83,9 +78,7 @@
                   </Group>
                   <Component id="label2" min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-              <Component id="checkbox1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="signUp" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                   <Component id="logIn" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
@@ -131,14 +124,6 @@
           <Font name="Dialog" size="12" style="1"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Username "/>
-      </Properties>
-    </Component>
-    <Component class="java.awt.Checkbox" name="checkbox1">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="8" style="1"/>
-        </Property>
-        <Property name="label" type="java.lang.String" value="I Agree to Usage Requirements "/>
       </Properties>
     </Component>
     <Component class="java.awt.Label" name="label2">
