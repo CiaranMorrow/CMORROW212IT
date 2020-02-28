@@ -331,40 +331,37 @@ public class Edit extends javax.swing.JFrame
     private void contactSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactSearchButtonActionPerformed
        // Search Button
         try
-        {
+        { 
             DefaultTableModel mod = new DefaultTableModel();
+            jTable1.setModel(mod);
+            mod.setColumnIdentifiers(columnNames);
             
-            String userInput = contactSearchField.getText();
-            String sql = "SELECT * FROM contact WHERE contactID = ?,?,?";
+            String ting = "%".concat(contactSearchField.getText()).concat("%");
+            ting = ting.replace("%", "!%");
+            String sql = "SELECT * FROM contact WHERE contactID LIKE ? ESCAPE '!';";
             PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1,"%");
-            pst.setString(2, userInput);
-            pst.setString(3, "%");
+            pst.setString(1, ting);
             ResultSet rs = pst.executeQuery();
-            
-            System.out.println(rs.toString());
-            System.out.println(rs.getInt(1));
-            System.out.println(rs.getString(2));
+           
             java.sql.ResultSetMetaData rsmd = rs.getMetaData();
             int colNo = rsmd.getColumnCount();
-            
+           
             while(rs.next())
             {
+                System.out.println(rs.getString("contactFName")); // never does this - F
                 Object[] objects = new Object[colNo];
-                
+               
                 for(int i=0;i<colNo;i++)
                 {
                     objects[i]=rs.getObject(i+1);
                 }
                 mod.addRow(objects);
-            }
-            jTable1.setModel(mod);            
+            }            
         }
         catch (SQLException e)
         {
             System.out.println(e);
-        }  
-        
+        }    
         
     }//GEN-LAST:event_contactSearchButtonActionPerformed
 
