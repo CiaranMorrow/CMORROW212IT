@@ -1,3 +1,11 @@
+
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import models.Users;
+import services.DbConnection;
+import static services.Validation.sha1;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,12 +17,14 @@
  * @author dell
  */
 public class LogIn extends javax.swing.JFrame {
-
+    private Connection conn; // Connection for the page 
+    private DbConnection connectionManagementService = new DbConnection(); // new connection manager 
     /**
      * Creates new form LogIn
      */
     public LogIn() {
         initComponents();
+        conn = connectionManagementService.Connect();
     }
 
     /**
@@ -31,7 +41,7 @@ public class LogIn extends javax.swing.JFrame {
         signUp = new javax.swing.JButton();
         label1 = new java.awt.Label();
         label2 = new java.awt.Label();
-        userNameText = new javax.swing.JTextField();
+        usernameText = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -62,9 +72,9 @@ public class LogIn extends javax.swing.JFrame {
         label2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         label2.setText("Password");
 
-        userNameText.addActionListener(new java.awt.event.ActionListener() {
+        usernameText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userNameTextActionPerformed(evt);
+                usernameTextActionPerformed(evt);
             }
         });
 
@@ -84,7 +94,7 @@ public class LogIn extends javax.swing.JFrame {
                             .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userNameText, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                            .addComponent(usernameText, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                             .addComponent(passwordText)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(signUp, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -103,12 +113,12 @@ public class LogIn extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(41, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(34, 34, 34)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(userNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(usernameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2))
                     .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -127,28 +137,74 @@ public class LogIn extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void userNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameTextActionPerformed
+    private void usernameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameTextActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_userNameTextActionPerformed
+    }//GEN-LAST:event_usernameTextActionPerformed
 
     private void logInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logInActionPerformed
-        // WILL CHANGE AT END
-       Menu mn = new Menu();
-        mn.setVisible(true);
-        this.dispose();
-        /* if (userNameText.getText().trim().isEmpty() && passwordText.getText().trim().isEmpty()){
+        // This is inserting User
+        String shaPassword = "";
+        boolean isUserValid = true;
+        boolean isPassValid = true;
+        Users[] localUsers = connectionManagementService.GetUsers(conn);
+        String inputUsername = usernameText.getText();
+        Users user = null;
+        
+        if (usernameText.getText().trim().isEmpty() && passwordText.getText().trim().isEmpty()){
             jLabel2.setText("Username Missing");
             jLabel3.setText("Password Missing");
         }
-        else if(userNameText.getText().trim().isEmpty()){
+        else if(usernameText.getText().trim().isEmpty()){
            jLabel2.setText("Username Missing"); 
         }
-        else if(userNameText.getText().trim().isEmpty()){
+        else if(passwordText.getText().trim().isEmpty()){
            jLabel3.setText("Password Missing"); 
         }
-        */
         
+        try
+        {
+            //converts password input to sha1
+            shaPassword = sha1(passwordText.getPassword()); 
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            System.out.println(e);
+        }
         
+        //user validation
+        for (Users localUser : localUsers) 
+        {
+            if (inputUsername.equals(localUser.username))
+            {
+                user = localUser;
+                break;
+            }
+        }
+        if (user == null)
+        {
+            isUserValid = false;
+        }
+        //pass validation
+        if (shaPassword.equals(user.password))
+        {
+            Menu mn = new Menu();
+            mn.setVisible(true);
+            this.dispose();
+        }
+        else
+        {
+            isPassValid = false;
+        }
+        
+        //validation final checks
+        if (!isUserValid)
+        {
+            JOptionPane.showMessageDialog(null, "No User with that name", "Invalid Username", JOptionPane.WARNING_MESSAGE);
+        }
+        if (!isPassValid)
+        {
+            JOptionPane.showMessageDialog(null, "Passwords do not match", "Invalid Password", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_logInActionPerformed
 
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
@@ -202,6 +258,6 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JButton logIn;
     private javax.swing.JPasswordField passwordText;
     private javax.swing.JButton signUp;
-    private javax.swing.JTextField userNameText;
+    private javax.swing.JTextField usernameText;
     // End of variables declaration//GEN-END:variables
 }

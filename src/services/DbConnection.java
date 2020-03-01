@@ -14,8 +14,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import models.BusinessContact; //Import Libary Models 
-
 import models.PersonalContact;
+import models.Users;
 
 /**
  *
@@ -23,15 +23,18 @@ import models.PersonalContact;
  */
 public class DbConnection 
 { 
+    // database connection class, to be used within all pages requiring a database connection 
+    // this saves duplicate commands 
     private Driver d = new com.microsoft.sqlserver.jdbc.SQLServerDriver();
+    // JDBC driver allows you to use the SQL Code 
     
     public DbConnection()
     {
         try
         {
-            DriverManager.registerDriver(d);
+            DriverManager.registerDriver(d); // registering to the driver to allow a connection between the code and db
         } 
-        catch (SQLException e)
+        catch (SQLException e) // catching the exception 
         {
             System.out.println(e); 
         }
@@ -39,30 +42,37 @@ public class DbConnection
     
     public Connection Connect()
     {
-        Connection conn = null;
+        Connection conn = null; 
         
         String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=212Tings;user=root;password=12345;";
-
+        //server driver , Port, DB NAME, 212Tings, UserName, Password 
         try 
         {
-            conn = DriverManager.getConnection(connectionUrl);
+            conn = DriverManager.getConnection(connectionUrl); // assigning the variable conn with the connection url - this essentially establishes the connection 
         }
         catch(SQLException ex)
         {
-            System.out.println(ex);
+            System.out.println(ex); // print exception 
         }
         
-        return conn;
+        return conn; // returning the connection to the methods that call it for 
+                    //example (From Add contact): conn = connectionManagementService.Connect();
+
     }
     
     //Create Business Contact
     public void AddBusinessContact(BusinessContact contact, Connection conn) 
     {
-        String sql = "INSERT INTO contact"
+        //Inserting into table contact
+        //column names eg : "contactFName" - no ContactID Column, this should not be available to edit
+        // Values of prepared statements represented by ?'s
+        String sql = "INSERT INTO contact" 
                 + "(contactFName, contactLname, contactTel, contactEmail, contactAddr1, contactAddr2, contactCity, contactPostcode, businessTel) "
                 + "VALUES(?,?,?,?,?,?,?,?,?)";
         try
         { 
+            //prepares it as a string rather than passing the values through as SQL
+            //prepared statements help prevent sql injections 
             PreparedStatement stmnt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
             stmnt.setString(1, contact.contactFName);
             stmnt.setString(2, contact.contactLName);
@@ -83,6 +93,8 @@ public class DbConnection
     
     public void UpdateBusinessContact(BusinessContact contact, Connection conn)
     {
+        //Updates table called contact/
+        // Setting table X with prepared statement represented by ? 
         String sql = "UPDATE contact "
                 + "SET contactFName = ?, contactLName = ?, contactTel = ?, contactEmail = ?, contactAddr1 = ?, contactAddr2 = ?, contactCity = ?, contactPostcode = ?, businessTel = ? " 
                 +"WHERE contactID = ?";
@@ -114,11 +126,11 @@ public class DbConnection
     public void DeleteBusinessContact(int contactId, Connection conn)
     {
         String sql = "DELETE FROM contact WHERE contactID = ? ";
-        
         try
         {
+            //Deletes from table contact where contact ID is inputted -  this is don using the JTABLE select
             PreparedStatement stmnt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
-            stmnt.setInt(1, contactId);
+            stmnt.setInt(1, contactId);// select statement
             stmnt.executeUpdate();
         }
         catch (SQLException e)
@@ -129,6 +141,9 @@ public class DbConnection
 
     public void AddPersonalContact(PersonalContact contact, Connection conn)
     {
+        // Insert a new entry into contact table 
+        // in the column names such as contact FName 
+        //Values of the prepares statement 
         String sql = "INSERT INTO contact"
                 + "(contactFName, contactLname, contactTel, contactEmail, contactAddr1, contactAddr2, contactCity, contactPostcode, personalTel) "
                 + "VALUES(?,?,?,?,?,?,?,?,?)";
@@ -156,6 +171,7 @@ public class DbConnection
     
     public void UpdatePersonalContact(PersonalContact contact, Connection conn)
     {
+        //updating personal contact table 
         String sql = "UPDATE contact "
                 + "SET contactFName = ?, contactLName= ?, contactTel = ?, contactEmail = ?, contactAddr1 = ?, contactAddr2 = ?, contactCity = ?, contactPostcode = ?, personalTel = ? " 
                 +"WHERE contactID = ?"; 
@@ -184,6 +200,7 @@ public class DbConnection
 
     public void DeletePersonalContact(int contactId, Connection conn)
     {
+        // deleting entry using the contactID 
         String sql = "DELETE FROM contact WHERE contactID = ? ";
         
         try
@@ -200,9 +217,10 @@ public class DbConnection
     
     public BusinessContact[] GetBusinessContacts(Connection conn)
     {
+        // businessContact returning an array of businessContacts passing through the connection 
         ArrayList<BusinessContact> businessContacts = new ArrayList<BusinessContact>();
         BusinessContact[] bContactArray = {};
-        
+        //SQL string selecting entries where personalTEL is not populated 
         String sql = "SELECT * FROM contact WHERE businessTel IS NOT NULL AND personalTel IS NULL;";
         try
         {
@@ -225,7 +243,7 @@ public class DbConnection
                 contact.businessTel = contacts.getString("businessTel");
 
                 businessContacts.add(contact);
-                contact = null;
+                contact = null; // clears contact 
             }
         }
         catch (SQLException e)
@@ -241,7 +259,8 @@ public class DbConnection
     {
         ArrayList<PersonalContact> personalContacts = new ArrayList<PersonalContact>();
         PersonalContact[] pContactArray = {};
-        
+                //SQL string selecting entries where BusinessTEL is not populated 
+
         String sql = "SELECT * FROM contact WHERE personalTel IS NOT NULL AND businessTel IS NULL;";
         try
         {
@@ -275,4 +294,59 @@ public class DbConnection
         pContactArray = new PersonalContact[personalContacts.size()];
         return personalContacts.toArray(pContactArray);
     }
+    public void AddUser(Users user, Connection conn)
+    {
+        // Insert a new entry into contact table 
+        // in the column names such as contact FName 
+        //Values of the prepares statement 
+        String sql = "INSERT INTO users "
+                + "(username, password) "
+                + "VALUES(?,?)";
+        try
+        {
+            PreparedStatement stmnt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+            stmnt.setString(1, user.username);
+            stmnt.setString(2, user.password);
+            
+            stmnt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e);
+        }
+    }
+    public Users[] GetUsers(Connection conn)
+    {
+        ArrayList<Users> users = new ArrayList<Users>();
+        Users[] usersArray = {};
+                //SQL string selecting entries where BusinessTEL is not populated 
+
+        String sql = "SELECT * FROM users;";
+        try
+        {
+            PreparedStatement stmnt = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS);
+            ResultSet userSet = stmnt.executeQuery();
+            
+            while(userSet.next()) // while theres a result within result set, fills array, once all data is parsed to the model, array is returned 
+            {
+                Users user = new Users();
+
+                user.userID = userSet.getInt("userID");
+                user.username = userSet.getString("username");
+                user.password = userSet.getString("password");
+               
+                users.add(user);
+                user = null;
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e);
+        }
+        
+        usersArray = new Users[users.size()];
+        return users.toArray(usersArray);
+    }
+    
+    
 }

@@ -1,20 +1,15 @@
-
 import services.DbConnection;
-import java.awt.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import models.BusinessContact;
 import models.MergeContact;
 import models.PersonalContact;
-
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,7 +27,7 @@ public class Edit extends javax.swing.JFrame
     private PersonalContact[] personalContacts;
     private ArrayList<MergeContact> allContacts = new ArrayList<MergeContact>();
     private String[] columnNames = {"ID", "FirstName", "LastName","Tel","Email","Addr1", "Addr2","City", "Postcode", "businessTel","personalTel"};
-    private Connection conn;
+    private Connection conn; // Connection for the page 
     private DbConnection connectionManagementService = new DbConnection();
     
     public DefaultTableModel model = new DefaultTableModel();
@@ -41,10 +36,8 @@ public class Edit extends javax.swing.JFrame
      * Creates new form Edit
      */
     public Edit() {
-        initComponents();
-        
-        conn = connectionManagementService.Connect();   
-        
+        initComponents();  
+        conn = connectionManagementService.Connect();          
         UpdateTableModel();
     }
 
@@ -247,16 +240,13 @@ public class Edit extends javax.swing.JFrame
                                 .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(83, 83, 83)
-                                .addComponent(jLabel11))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(83, 83, 83)
+                        .addComponent(jLabel11))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(749, 749, 749))

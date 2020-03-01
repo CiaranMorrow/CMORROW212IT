@@ -9,7 +9,8 @@
  * @author dell
  */
 public class Menu extends javax.swing.JFrame {
-
+// Everything within JFrame can be used by the Menu Class
+    
     /**
      * Creates new form Menu
      */
@@ -90,19 +91,19 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editContactActionPerformed
-        Edit ed = new Edit();
+        Edit ed = new Edit(); // Navigation Button
         ed.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_editContactActionPerformed
 
     private void addContactActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addContactActionPerformed
-        AddContact ad = new AddContact();
+        AddContact ad = new AddContact(); // Navigation Button
         ad.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_addContactActionPerformed
 
     private void SignoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignoutActionPerformed
-        LogIn LI = new LogIn();
+        LogIn LI = new LogIn(); // Navigation Button
         LI.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_SignoutActionPerformed
