@@ -1,9 +1,5 @@
-
 import services.DbConnection;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import models.BusinessContact;
 import models.PersonalContact;
 
@@ -19,14 +15,17 @@ import models.PersonalContact;
  */
 public class AddContact extends javax.swing.JFrame {
 
-    private Connection conn;
-    private DbConnection connectionManagementService = new DbConnection();
+    private Connection conn; // Connection for the page 
+    private DbConnection connectionManagementService = new DbConnection(); // new connection manager
+    
+    // connection manager uses and manages the connection for this individual page. 
+    // connection for the page is open and closed on this page, rather than keeping a constant connection 
     
     /**
      * Creates new form AddContact
      */
     public AddContact() {
-        initComponents();
+        initComponents(); // Intialises the components for this page
         conn = connectionManagementService.Connect();
     }
 
@@ -252,7 +251,7 @@ public class AddContact extends javax.swing.JFrame {
 
     private void AddcreateIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddcreateIDActionPerformed
         // Create button
-        if(AddradioBusiness.isSelected())
+        if(AddradioBusiness.isSelected()) // checks the business radio button is selected 
         {
             BusinessContact newBusinessContact = new BusinessContact();
             newBusinessContact.SetContactFName(Addforename.getText());
@@ -265,7 +264,7 @@ public class AddContact extends javax.swing.JFrame {
             newBusinessContact.SetContactPostcode(Addpostcode.getText());
             newBusinessContact.SetBusinessTel(AddbusinessNumber.getText()); 
 
-            connectionManagementService.AddBusinessContact(newBusinessContact, conn);
+            connectionManagementService.AddBusinessContact(newBusinessContact, conn); // When passing in addbusinesscontact it passes in the connection and keeps the connection persistant 
         }
         else
         {
@@ -281,7 +280,7 @@ public class AddContact extends javax.swing.JFrame {
             newPersonalContact.SetContactPostcode(Addpostcode.getText());
             newPersonalContact.SetHomeTel(AddpersonalNumber.getText());            
 
-            connectionManagementService.AddPersonalContact(newPersonalContact, conn);
+            connectionManagementService.AddPersonalContact(newPersonalContact, conn); // When passing in newPersonalContact it passes in the connection and keeps the connection persistant 
 
         }
               
@@ -295,7 +294,7 @@ public class AddContact extends javax.swing.JFrame {
     }//GEN-LAST:event_AddreturnLogInActionPerformed
 
     private void AddclearTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddclearTextActionPerformed
-      
+      // when button pressed, clears the fields
     Addforename.setText("");
     Addsurname.setText("");
     AddmobileNumber.setText("");
